@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.telaLogin--backgroundImage{
+  background-image: url('https://assets.nflxext.com/ffe/siteui/vlv3/3679b63e-5d92-47a1-96ec-b26d86fc0f0a/b15d4f67-d3f3-4210-9cd4-8b02babf6eea/BR-pt-20211213-popsignuptwoweeks-perspective_alpha_website_medium.jpg');
+  
+  width: 100vw;
+  height: 100vh;
+  object-fit: fill;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center, center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

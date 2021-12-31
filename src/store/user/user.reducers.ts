@@ -5,4 +5,5 @@ const login = (state: UserState, action:UserAction)=>{
 }
 
 const reducers = {login}
+
 export default reducers

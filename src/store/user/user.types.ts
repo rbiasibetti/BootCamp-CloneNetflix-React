@@ -1,12 +1,13 @@
-import { Action } from "../store/store.types"
-
+import { Action } from "../store/store.types";
 export type User = {
-  email: string,
-  password: string,
+    data: {
+        email: string,
+        password: string
+    }
 }
 
 export type UserState = {
-  data: User | null
+    data: User | null
 }
 
-export default UserAction = Action<User>
+export type UserAction = Action<User>

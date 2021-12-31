@@ -6,6 +6,6 @@ export const GlobalStyle = createGlobalStyle<{theme: typeof theme}>`
   
     body {
         font-family: 'Open Sans', sans-serif;
-        background: ${props => props.theme.palette.core.secondary};        
+        background: ${props => props.theme.palette.core.secondary};     
      }
 `

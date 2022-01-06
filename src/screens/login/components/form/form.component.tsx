@@ -1,36 +1,40 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InputText from "../../../../components/input/input-text/input-text.component";
 import Button from "../../../../components/buttons/button/button.component";
 import * as yup from 'yup'
-import {ErrorMessages} from "./form.types";
-import {ErrorDescription} from "./form.styled";
-import {userActions} from "../../../../store/user/user.slice";
-import {useDispatch, useSelector} from "react-redux";
-import { isAutenticated } from "../../../../store/user/user.selector";
-import { useLocation,useNavigate } from "react-router-dom";
+import { ErrorMessages } from "./form.types";
+import { ErrorDescription } from "./form.styled";
+import { userActions } from "../../../../store/user/user.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticated, isLoading } from "../../../../store/user/user.selector";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HomePath } from "../../../home/home.types";
-
 
 const errorInitial = ''
 
 export default function Form() {
     const [data, setData] = useState({ email: '', password: '' })
     const [error, setError] = useState(errorInitial)
-    
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
-    const isUserAuthenticated = useSelector(isAutenticated)
-   
+    const isUserAuthenticated = useSelector(isAuthenticated)
+    const isUserLoading = useSelector(isLoading)
+
     useEffect(
-        ()=>{
-            if(isUserAuthenticated){
-                console.log('autenticado')
+        () => {
+            if (isUserAuthenticated) {
                 const to = location.state?.from?.pathname || HomePath
                 navigate(to)
             }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        },[isUserAuthenticated]
+        },
+        [isUserAuthenticated]
+    )
+
+    const buttonDescription = useMemo(
+        () => isUserLoading ? 'Carregando...' : 'Entrar',
+        [isUserLoading]
     )
 
     const resetError = useCallback(
@@ -56,34 +60,34 @@ export default function Form() {
             try {
                 await schema.validate(data)
                 resetError()
-                //console.log(data)
+
                 return true
             } catch (error) {
                 // @ts-ignore
                 setError(error.errors[0])
+
                 return false
             }
+
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [data, setError]
     )
 
     const onSubmit = useCallback(
         async () => {
-            if(await validation()) {
+            if (await validation()) {
                 dispatch(userActions.login(data))
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [validation, data]
     )
 
     return (
         <>
-            <InputText type='text' placeholder={'E-mail'} name={'email'} onChange={handleChange}/>
-            <InputText type={'password'} placeholder={'Senha'} name={'password'} onChange={handleChange}/>
+            <InputText type='text' placeholder={'E-mail'} name={'email'} onChange={handleChange} />
+            <InputText type={'password'} placeholder={'Senha'} name={'password'} onChange={handleChange} />
             <ErrorDescription>{error}</ErrorDescription>
-            <Button primary onClick={onSubmit}>Entrar</Button>
+            <Button primary onClick={onSubmit}>{buttonDescription}</Button>
         </>
     )
 }

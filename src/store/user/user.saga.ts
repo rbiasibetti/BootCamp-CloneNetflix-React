@@ -1,23 +1,45 @@
-import { put, takeEvery,takeLatest, all, call } from "@redux-saga/core/effects"
+import { put, takeEvery, all, call } from 'redux-saga/effects'
+import sessionService from "../../services/session/session.service"
 import { userActions } from "./user.slice"
+import { AccessTokenStorageKey, UserAction } from "./user.types";
+import { GetSession, PostSessionNew } from "../../services/user/user.types";
 
-export function* login(props: any) {
-  yield put(userActions.setData(props.payload))
-  /*
-   saga put dispara uma ação para falar com o redux  
-  */ 
+export function* login(props: UserAction) {
+  try {
+    yield put(userActions.setSettings({ isLoading: true }))
+    const { email, password } = props.payload
+    // @ts-ignore
+    const { data: { user, accessToken } }: PostSessionNew = yield call(sessionService().postSessionNew, { email, password })
+    localStorage.setItem(AccessTokenStorageKey, accessToken)
+
+    yield put(userActions.setData({ ...user }))
+  } catch (error) {
+    // @ts-ignore
+    yield put(userActions.setError(error.response.data.message))
+  } finally {
+    yield put(userActions.setSettings({ isLoading: false }))
+  }
 }
 
 function* watchLogin() {
-  yield takeLatest('user/login', login)
-  /*
-   saga take**** controla o número de interceptações realizadas 
-    (clique nervoso :p )    
-  */ 
+  yield takeEvery('user/login', login)
+}
+
+export function* loginByToken() {
+  try {
+    const accessToken = localStorage.getItem(AccessTokenStorageKey)
+    if (accessToken) {
+      const { data: { userId: id } }: GetSession = yield call(sessionService().getSession, accessToken)
+      yield put(userActions.setData({ id }))
+    }
+  }catch (error){
+    //@ts-ignore
+    yield put(userActions.setError(error.response.data.message))
+  }
 }
 
 export default function* userSaga() {
   yield all([
-    watchLogin()
+    watchLogin(),
   ])
 }

@@ -44,7 +44,7 @@ export const RoutesMenu = styled.div`
 
     li {
       font-size: 14px;
-      color: ${({ theme }) => theme.colors.primary};
+      color: black;
       font-weight: 400;
 
       & + li {
@@ -70,7 +70,7 @@ export const Profile = styled.div`
   > svg {
     width: 22px;
     height: 22px;
-    color: ${({ theme }) => theme.colors.primary};
+    color: black;
     margin-right: 30px;
   }
 
@@ -91,18 +91,7 @@ export const Profile = styled.div`
     > svg {
       width: 15px;
       height: 15px;
-      color: ${({ theme }) => theme.colors.primary};
+      color: black;
     }
   }
-
-  ${media.lessThan('medium')`
-    > svg {
-      width: 20px;
-      height: 20px;
-      margin-right: 24px;
-    }
-    button {
-      margin-right: 18px;
-    }
-  `}
 `;

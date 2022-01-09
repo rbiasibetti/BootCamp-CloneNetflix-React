@@ -1,3 +1,4 @@
+import { red } from '@mui/material/colors';
 import styled from 'styled-components';
 
 export const Container = styled.main`
@@ -27,7 +28,7 @@ export const Loading = styled.div`
 
       background: transparent;
       border-top: 2px solid transparent;
-      border-left: 2px solid ${({ theme }) => theme.colors.red};
+      border-left: 2px solid red;
       border-bottom: 2px solid transparent;
       border-right: 2px solid transparent;
       border-radius: 50%;
@@ -40,7 +41,7 @@ export const Loading = styled.div`
     }
 
     strong {
-      color: ${({ theme }) => theme.colors.red};
+      color: ${({ theme }) => red};
       font-size: 70px;
     }
   }

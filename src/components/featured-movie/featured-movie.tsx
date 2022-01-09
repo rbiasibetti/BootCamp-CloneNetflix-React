@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlay, FaInfoCircle } from 'react-icons/fa';
 import { MovieProps } from '../../services/home/home.types';
-
-import api from '../../services/api';
+//migrar as requisições para o home.services
+import axiosInstance from "../../modules/axios/axios.module";
 import {
   Container,
   MovieBackground,
@@ -17,7 +17,7 @@ const FeaturedMovie: React.FC<{ movieId: number }> = ({ movieId }) => {
   const [movie, setMovie] = useState<MovieProps>({} as MovieProps);
 
   useEffect(() => {
-    api
+    axiosInstance
       .get(
         `/tv/${movieId}?language=pt-BR&api_key=${process.env.REACT_APP_API_KEY}`,
       )

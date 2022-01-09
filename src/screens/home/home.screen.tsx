@@ -4,25 +4,28 @@ import { Container, Loading } from "./home.styles";
 import NavBar from "../../components/navbar/navbar.index";
 import FeaturedMovie from "../../components/featured-movie/featured-movie";
 import SectionMovies from "../../components/section-movies/section-movies";
-import { MovieProps,SectionsMoviesProps } from "./home.types";
+import { MovieProps, SectionsMoviesProps } from "./home.types";
+//migrar as requisições para o home.services
+import axiosInstance from "../../modules/axios/axios.module";
 
-
-const Home: React.FC = () => {
+export default function Home(){
   const [featuredMovieId, setFeaturedMovieId] = useState<number>(0);
   const [sectionsMovies, setSectionsMovies] = useState<SectionsMoviesProps[]>(
     [],
   );
   const [loading, setLoading] = useState(true);
 
+
+  /*
   const apiRoutes: { name: string; route: string }[] = [
-    { name: 'Em alta', route: '/tv/popular?' },
-    { name: 'Populares na Cloneflix', route: '/trending/all/week?' },
-    { name: 'Melhores Avaliados', route: '/movie/top_rated?' },
-    { name: 'Lançamentos', route: '/movie/now_playing?' },
-    { name: 'Ação', route: '/discover/movie?with_genres=28&' },
-    { name: 'Ficção científica', route: '/discover/movie?with_genres=878&' },
-    { name: 'Romance', route: '/discover/movie?with_genres=10749&' },
-  ];
+    { name: 'Em alta', route: '/movies' },
+    { name: 'Populares na Cloneflix', route: '/movies' },
+    { name: 'Melhores Avaliados', route: '/movies' },
+    { name: 'Lançamentos', route: '/movies' },
+    { name: 'Ação', route: '/movies' },
+    { name: 'Ficção científica', route: '/movies' },
+    { name: 'Romance', route: '/movies' },
+  ];/*
 
   useEffect(() => {
     const URL_LANGUAGE_AND_KEY = `language=pt-BR&api_key=${process.env.REACT_APP_API_KEY}&page=`;
@@ -33,7 +36,7 @@ const Home: React.FC = () => {
       if (index < 3) pageRandom = (Math.random() * (5 - 1) + 1).toString();
 
       const URL = route.concat(URL_LANGUAGE_AND_KEY).concat(pageRandom);
-      return api.get(URL);
+      return axiosInstance.get(URL);
     });
 
     if (sectionsMovies.length === 0) {
@@ -58,30 +61,29 @@ const Home: React.FC = () => {
         });
     }
   }, [apiRoutes, sectionsMovies]);
+*/
+  return (
+    <Container>
+      <NavBar />
+      {!loading ? (
+        <Loading>
+          <div>
+            <span />
+            <strong>N</strong>
+          </div>
+        </Loading>
+      ) : 
+      (
+        <>
+          <FeaturedMovie movieId={featuredMovieId} />
+          <div style={{ marginTop: -200 }}>
+            {sectionsMovies.map(sectionMovie => (
+              <SectionMovies {...sectionMovie} key={sectionMovie.id} />
+            ))}
+          </div>
+        </>
+      )}
+    </Container>
+  )
+}
 
-
-
-  export default function Home() {
-    return (
-      <Container>
-        <NavBar />
-        {loading ? (
-          <Loading>
-            <div>
-              <span />
-              <strong>N</strong>
-            </div>
-          </Loading>
-        ) : (
-          <>
-            <FeaturedMovie movieId={featuredMovieId} />
-            <div style={{ marginTop: -200 }}>
-              {sectionsMovies.map(sectionMovie => (
-                <SectionMovies {...sectionMovie} key={sectionMovie.id} />
-              ))}
-            </div>
-          </>
-        )}
-      </Container>
-    )
-  }

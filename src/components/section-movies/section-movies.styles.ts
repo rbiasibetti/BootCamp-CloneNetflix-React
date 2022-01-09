@@ -29,7 +29,7 @@ export const Container = styled.div`
     svg {
       width: 40px;
       height: 40px;
-      color: ${({ theme }) => theme.colors.primary};
+      color: black;
     }
 
     visibility: hidden;
@@ -60,7 +60,7 @@ export const Container = styled.div`
       svg {
         width: 25px;
         height: 25px;
-        color: ${({ theme }) => theme.colors.primary};
+        color: black;
       }
 
       &:hover {
@@ -177,7 +177,7 @@ export const MovieCardControll = styled.div`
     display: flex;
     align-items: center;
 
-    background: ${({ theme }) => theme.colors.primary};
+    background: black;
     color: #000;
     font-weight: bold;
     font-size: 16px;
@@ -192,8 +192,8 @@ export const MovieCardControll = styled.div`
     }
 
     &:hover {
-      color: ${({ theme }) => theme.colors.primary};
-      background: ${({ theme }) => theme.colors.red};
+      color: black;
+      background: red;
     }
   }
 
@@ -201,13 +201,13 @@ export const MovieCardControll = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${({ theme }) => theme.colors.primary};
+    color: black;//**/ 
     margin-left: 6px;
     height: 44px;
     width: 44px;
     border-radius: 22px;
-    border: 1px solid ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.body};
+    border: 1px solid black;
+    background: black;
     opacity: 0.6;
 
     &:hover {
